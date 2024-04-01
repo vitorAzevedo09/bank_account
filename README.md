@@ -4,54 +4,72 @@ This Python program implements a simple bank management system with classes repr
 
 ### Usage
 
-To use this system, you can follow the example below:
+To use this system, you can follow the diagram below:
 
-```python
-# Import necessary classes
-from abc import ABC, abstractclassmethod, abstractproperty
-from datetime import datetime
+```mermaid
 
-# Define your clients and accounts
-class Client:
-    # Implementation
+classDiagram
+    class Client {
+        + address: string
+        - accounts: list
+        + perform_transaction(account, transaction)
+        + add_account(account)
+    }
 
-class IndividualClient(Client):
-    # Implementation
+    class Individual {
+        + name: string
+        + date_of_birth: string
+        + cpf: string
+        + address: string
+    }
 
-class Account:
-    # Implementation
+    class Account {
+        - balance: float
+        - number: string
+        - branch: string
+        - client: Client
+        - history: History
+        + new_account(client, number)
+        + balance()
+        + number()
+        + branch()
+        + client()
+        + history()
+        + withdraw(amount)
+        + deposit(amount)
+    }
 
-class CheckingAccount(Account):
-    # Implementation
+    class CheckingAccount {
+        + limit: float
+        + withdrawal_limit: int
+    }
 
-class History:
-    # Implementation
+    class History {
+        - transactions: list
+        + add_transaction(transaction)
+    }
 
-class Transaction(ABC):
-    # Implementation
+    class Transaction {
+        + amount
+        + register(account)
+    }
 
-class Withdrawal(Transaction):
-    # Implementation
+    class Deposit {
+        - amount: float
+    }
 
-class Deposit(Transaction):
-    # Implementation
+    class Withdrawal {
+        - amount: float
+    }
 
-# Example usage
-if __name__ == "__main__":
-    # Create clients
-    client1 = IndividualClient("John", datetime(1990, 5, 15), "123.456.789-00", "Street A, 123")
-    client2 = IndividualClient("Mary", datetime(1985, 10, 25), "987.654.321-00", "Street B, 456")
+    Client --> Account
+    Client --> Individual
+    Account --> History
+    Account --> Transaction
+    Individual <-- CheckingAccount
+    Transaction <-- Deposit
+    Transaction <-- Withdrawal
 
-    # Create accounts
-    account1 = CheckingAccount.new_account(client1, "12345")
-    account2 = CheckingAccount.new_account(client2, "54321")
-
-    # Perform transactions
-    withdrawal = Withdrawal(1000)
-    withdrawal.register(account1)
-
-    deposit = Deposit(500)
-    deposit.register(account2)
 ```
 
 ### Classes
